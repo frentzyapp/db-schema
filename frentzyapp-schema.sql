@@ -1,6 +1,149 @@
 -- *************** SqlDBM: PostgreSQL ****************;
 -- ***************************************************;
 
+-- ************************************** "Province"
+CREATE TABLE "Province"
+(
+ "province" varchar(30) NOT NULL,
+ "id"       int NOT NULL
+
+);
+
+CREATE UNIQUE INDEX "PK_Province" ON "Province"
+(
+ "id"
+);
+
+-- ************************************** "Address"
+
+CREATE TABLE "Address"
+(
+ "id"         int NOT NULL,
+ "address1"   varchar(50) NOT NULL,
+ "addres2"    varchar(50) NULL,
+ "city"       varchar(50) NOT NULL,
+ "provinceid" int NOT NULL,
+ "postalcode" varchar(7) NOT NULL,
+ CONSTRAINT "FK_43" FOREIGN KEY ( "provinceid" ) REFERENCES "Province" ( "id" )
+);
+
+CREATE UNIQUE INDEX "PK_Address" ON "Address"
+(
+ "id"
+);
+
+CREATE INDEX "fkIdx_43" ON "Address"
+(
+ "provinceid"
+);
+
+-- ************************************** "UserActive"
+
+CREATE TABLE "UserActive"
+(
+ "id"       int NOT NULL,
+ "islocked" boolean NOT NULL
+
+);
+
+CREATE UNIQUE INDEX "PK_UserActive" ON "UserActive"
+(
+ "id"
+);
+
+
+-- ************************************** "UserProfile"
+
+CREATE TABLE "UserProfile"
+(
+ "id"          int NOT NULL,
+ "description" text NOT NULL,
+ "profilepic"  varchar(50) NOT NULL
+
+);
+
+CREATE UNIQUE INDEX "PK_UserDescription" ON "UserProfile"
+(
+ "id"
+);
+
+
+-- ************************************** "Category"
+
+CREATE TABLE "Category"
+(
+ "id"   int NOT NULL,
+ "name" varchar(50) NOT NULL
+
+);
+
+CREATE UNIQUE INDEX "PK_Category" ON "Category"
+(
+ "id"
+);
+
+
+-- ************************************** "Subcategory"
+
+CREATE TABLE "Subcategory"
+(
+ "id"         int NOT NULL,
+ "name"       varchar(50) NOT NULL,
+ "categoryid" int NOT NULL,
+ CONSTRAINT "FK_141" FOREIGN KEY ( "categoryid" ) REFERENCES "Category" ( "id" )
+);
+
+CREATE UNIQUE INDEX "PK_Subcategory" ON "Subcategory"
+(
+ "id"
+);
+
+CREATE INDEX "fkIdx_141" ON "Subcategory"
+(
+ "categoryid"
+);
+
+
+-- ************************************** "Item"
+
+CREATE TABLE "Item"
+(
+ "id"           int NOT NULL,
+ "name"         varchar(50) NOT NULL,
+ "description"  text NOT NULL,
+ "inventoryid"  int NOT NULL,
+ "rate"         decimal NOT NULL,
+ "availability" boolean NOT NULL,
+ "categoryid"   int NOT NULL,
+ "imgurl"       text NULL,
+ CONSTRAINT "FK_134" FOREIGN KEY ( "categoryid" ) REFERENCES "Category" ( "id" )
+);
+
+CREATE UNIQUE INDEX "PK_Item" ON "Item"
+(
+ "id"
+);
+
+CREATE INDEX "fkIdx_134" ON "Item"
+(
+ "categoryid"
+);
+
+
+-- ************************************** "Login"
+
+CREATE TABLE "Login"
+(
+ "password" varchar(50) NOT NULL,
+ "id"       int NOT NULL
+
+);
+
+CREATE UNIQUE INDEX "PK_Login" ON "Login"
+(
+ "id"
+);
+
 
 -- ************************************** "User"
 
@@ -8,7 +151,7 @@ CREATE TABLE "User"
 (
  "id"         int NOT NULL,
  "addressid"  int NOT NULL,
- "email"      varchar(50) NOT NULL,
+ "email"      varchar(50) UNIQUE NOT NULL,
  "firstname"  varchar(50) NOT NULL,
  "lastname"   varchar(50) NOT NULL,
  "verified"   boolean NOT NULL,
@@ -48,136 +191,6 @@ CREATE INDEX "fkIdx_70" ON "User"
  "loginid"
 );
 
--- *************** SqlDBM: PostgreSQL ****************;
--- ***************************************************;
-
-
--- ************************************** "UserProfile"
-
-CREATE TABLE "UserProfile"
-(
- "id"          int NOT NULL,
- "description" text NOT NULL,
- "profilepic"  varchar(50) NOT NULL
-
-);
-
-CREATE UNIQUE INDEX "PK_UserDescription" ON "UserProfile"
-(
- "id"
-);
-
-
-
-
-
-
-
-
--- ************************************** "UserActive"
-
-CREATE TABLE "UserActive"
-(
- "id"       int NOT NULL,
- "islocked" boolean NOT NULL
-
-);
-
-CREATE UNIQUE INDEX "PK_UserActive" ON "UserActive"
-(
- "id"
-);
-
--- *************** SqlDBM: PostgreSQL ****************;
--- ***************************************************;
-
-
--- ************************************** "Address"
-
-CREATE TABLE "Address"
-(
- "id"         int NOT NULL,
- "address1"   varchar(50) NOT NULL,
- "addres2"    varchar(50) NULL,
- "city"       varchar(50) NOT NULL,
- "provinceid" int NOT NULL,
- "postalcode" varchar(7) NOT NULL,
- CONSTRAINT "FK_43" FOREIGN KEY ( "provinceid" ) REFERENCES "Province" ( "id" )
-);
-
-CREATE UNIQUE INDEX "PK_Address" ON "Address"
-(
- "id"
-);
-
-CREATE INDEX "fkIdx_43" ON "Address"
-(
- "provinceid"
-);
-
-
-
-
-
-
-
-
--- ************************************** "UserRating"
-
-CREATE TABLE "UserRating"
-(
- "id"         int NOT NULL,
- "rating"     int NOT NULL,
- "review"     text NULL,
- "userid"     int NOT NULL,
- "rentalid"   int NOT NULL,
- "reviewdate" date NOT NULL,
- CONSTRAINT "FK_121" FOREIGN KEY ( "userid" ) REFERENCES "User" ( "id" ),
- CONSTRAINT "FK_125" FOREIGN KEY ( "rentalid" ) REFERENCES "Rental" ( "id" )
-);
-
-CREATE UNIQUE INDEX "PK_UserRating" ON "UserRating"
-(
- "id"
-);
-
-CREATE INDEX "fkIdx_121" ON "UserRating"
-(
- "userid"
-);
-
-CREATE INDEX "fkIdx_125" ON "UserRating"
-(
- "rentalid"
-);
-
-
--- Warning: You can generate script only for two tables at a time in your Free plan 
--- 
--- *************** SqlDBM: PostgreSQL ****************;
--- ***************************************************;
-
-
--- ************************************** "Category"
-
-CREATE TABLE "Category"
-(
- "id"   int NOT NULL,
- "name" varchar(50) NOT NULL
-
-);
-
-CREATE UNIQUE INDEX "PK_Category" ON "Category"
-(
- "id"
-);
-
-
-
-
-
-
-
 
 -- ************************************** "Inventory"
 
@@ -205,81 +218,6 @@ CREATE INDEX "fkIdx_97" ON "Inventory"
 (
  "itemid"
 );
-
--- *************** SqlDBM: PostgreSQL ****************;
--- ***************************************************;
-
-
--- ************************************** "Login"
-
-CREATE TABLE "Login"
-(
- "password" varchar(50) NOT NULL,
- "id"       int NOT NULL
-
-);
-
-CREATE UNIQUE INDEX "PK_Login" ON "Login"
-(
- "id"
-);
-
-
-
-
-
-
-
-
--- ************************************** "Item"
-
-CREATE TABLE "Item"
-(
- "id"           int NOT NULL,
- "name"         varchar(50) NOT NULL,
- "description"  text NOT NULL,
- "inventoryid"  int NOT NULL,
- "rate"         decimal NOT NULL,
- "availability" boolean NOT NULL,
- "categoryid"   int NOT NULL,
- "imgurl"       text NULL,
- CONSTRAINT "FK_134" FOREIGN KEY ( "categoryid" ) REFERENCES "Category" ( "id" )
-);
-
-CREATE UNIQUE INDEX "PK_Item" ON "Item"
-(
- "id"
-);
-
-CREATE INDEX "fkIdx_134" ON "Item"
-(
- "categoryid"
-);
-
-
--- *************** SqlDBM: PostgreSQL ****************;
--- ***************************************************;
-
-
--- ************************************** "Province"
-
-CREATE TABLE "Province"
-(
- "province" varchar(30) NOT NULL,
- "id"       int NOT NULL
-
-);
-
-CREATE UNIQUE INDEX "PK_Province" ON "Province"
-(
- "id"
-);
-
-
-
-
-
-
 
 
 -- ************************************** "Rental"
@@ -312,66 +250,31 @@ CREATE INDEX "fkIdx_106" ON "Rental"
 );
 
 
--- *************** SqlDBM: PostgreSQL ****************;
--- ***************************************************;
+-- ************************************** "UserRating"
 
-
--- ************************************** "Subcategory"
-
-CREATE TABLE "Subcategory"
+CREATE TABLE "UserRating"
 (
  "id"         int NOT NULL,
- "name"       varchar(50) NOT NULL,
- "categoryid" int NOT NULL,
- CONSTRAINT "FK_141" FOREIGN KEY ( "categoryid" ) REFERENCES "Category" ( "id" )
+ "rating"     int NOT NULL,
+ "review"     text NULL,
+ "userid"     int NOT NULL,
+ "rentalid"   int NOT NULL,
+ "reviewdate" date NOT NULL,
+ CONSTRAINT "FK_121" FOREIGN KEY ( "userid" ) REFERENCES "User" ( "id" ),
+ CONSTRAINT "FK_125" FOREIGN KEY ( "rentalid" ) REFERENCES "Rental" ( "id" )
 );
 
-CREATE UNIQUE INDEX "PK_Subcategory" ON "Subcategory"
+CREATE UNIQUE INDEX "PK_UserRating" ON "UserRating"
 (
  "id"
 );
 
-CREATE INDEX "fkIdx_141" ON "Subcategory"
+CREATE INDEX "fkIdx_121" ON "UserRating"
 (
- "categoryid"
+ "userid"
 );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+CREATE INDEX "fkIdx_125" ON "UserRating"
+(
+ "rentalid"
+);
