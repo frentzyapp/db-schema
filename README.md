@@ -1,1 +1,5 @@
-# Frentzy App DB Schema \nPostgres == 11.4
+# Frentzy App DB Schema
+
+## Requirements and Dependencies
+
+Postgres == 11.4
