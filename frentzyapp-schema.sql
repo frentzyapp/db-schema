@@ -4,9 +4,8 @@
 -- ************************************** "Province"
 CREATE TABLE "Province"
 (
- "province" varchar(30) NOT NULL,
- "id"       int NOT NULL
-
+ "id"       int GENERATED ALWAYS AS IDENTITY,
+ "province" varchar(30) NOT NULL
 );
 
 CREATE UNIQUE INDEX "PK_Province" ON "Province"
@@ -18,7 +17,7 @@ CREATE UNIQUE INDEX "PK_Province" ON "Province"
 
 CREATE TABLE "Address"
 (
- "id"         int NOT NULL,
+ "id"         int GENERATED ALWAYS AS IDENTITY,
  "address1"   varchar(50) NOT NULL,
  "addres2"    varchar(50) NULL,
  "city"       varchar(50) NOT NULL,
@@ -41,7 +40,7 @@ CREATE INDEX "fkIdx_43" ON "Address"
 
 CREATE TABLE "UserActive"
 (
- "id"       int NOT NULL,
+ "id"       int GENERATED ALWAYS AS IDENTITY,
  "islocked" boolean NOT NULL
 
 );
@@ -56,7 +55,7 @@ CREATE UNIQUE INDEX "PK_UserActive" ON "UserActive"
 
 CREATE TABLE "UserProfile"
 (
- "id"          int NOT NULL,
+ "id"          int GENERATED ALWAYS AS IDENTITY,
  "description" text NOT NULL,
  "profilepic"  varchar(50) NOT NULL
 
@@ -72,7 +71,7 @@ CREATE UNIQUE INDEX "PK_UserDescription" ON "UserProfile"
 
 CREATE TABLE "Category"
 (
- "id"   int NOT NULL,
+ "id"   int GENERATED ALWAYS AS IDENTITY,
  "name" varchar(50) NOT NULL
 
 );
@@ -87,7 +86,7 @@ CREATE UNIQUE INDEX "PK_Category" ON "Category"
 
 CREATE TABLE "Subcategory"
 (
- "id"         int NOT NULL,
+ "id"         int GENERATED ALWAYS AS IDENTITY,
  "name"       varchar(50) NOT NULL,
  "categoryid" int NOT NULL,
  CONSTRAINT "FK_141" FOREIGN KEY ( "categoryid" ) REFERENCES "Category" ( "id" )
@@ -108,7 +107,7 @@ CREATE INDEX "fkIdx_141" ON "Subcategory"
 
 CREATE TABLE "Item"
 (
- "id"           int NOT NULL,
+ "id"           int GENERATED ALWAYS AS IDENTITY,
  "name"         varchar(50) NOT NULL,
  "description"  text NOT NULL,
  "inventoryid"  int NOT NULL,
@@ -135,7 +134,7 @@ CREATE INDEX "fkIdx_134" ON "Item"
 CREATE TABLE "Login"
 (
  "password" varchar(50) NOT NULL,
- "id"       int NOT NULL
+ "id"       int GENERATED ALWAYS AS IDENTITY
 
 );
 
@@ -149,7 +148,7 @@ CREATE UNIQUE INDEX "PK_Login" ON "Login"
 
 CREATE TABLE "User"
 (
- "id"         int NOT NULL,
+ "id"         int GENERATED ALWAYS AS IDENTITY,
  "addressid"  int NOT NULL,
  "email"      varchar(50) UNIQUE NOT NULL,
  "firstname"  varchar(50) NOT NULL,
@@ -196,7 +195,7 @@ CREATE INDEX "fkIdx_70" ON "User"
 
 CREATE TABLE "Inventory"
 (
- "id"       int NOT NULL,
+ "id"       int GENERATED ALWAYS AS IDENTITY,
  "userid"   int NOT NULL,
  "itemid"   int NOT NULL,
  "quantity" int NOT NULL,
@@ -224,7 +223,7 @@ CREATE INDEX "fkIdx_97" ON "Inventory"
 
 CREATE TABLE "Rental"
 (
- "id"                 int NOT NULL,
+ "id"                 int GENERATED ALWAYS AS IDENTITY,
  "userid"             int NOT NULL,
  "itemid"             int NOT NULL,
  "checkoutdate"       date NOT NULL,
@@ -254,7 +253,7 @@ CREATE INDEX "fkIdx_106" ON "Rental"
 
 CREATE TABLE "UserRating"
 (
- "id"         int NOT NULL,
+ "id"         int GENERATED ALWAYS AS IDENTITY,
  "rating"     int NOT NULL,
  "review"     text NULL,
  "userid"     int NOT NULL,
