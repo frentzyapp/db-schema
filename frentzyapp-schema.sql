@@ -13,13 +13,14 @@ CREATE UNIQUE INDEX "PK_Province" ON "Province"
  "id"
 );
 
+
 -- ************************************** "Address"
 
 CREATE TABLE "Address"
 (
  "id"         int GENERATED ALWAYS AS IDENTITY,
  "address1"   varchar(50) NOT NULL,
- "addres2"    varchar(50) NULL,
+ "address2"    varchar(50) NULL,
  "city"       varchar(50) NOT NULL,
  "provinceid" int NOT NULL,
  "postalcode" varchar(7) NOT NULL,
@@ -41,7 +42,7 @@ CREATE INDEX "fkIdx_43" ON "Address"
 CREATE TABLE "UserActive"
 (
  "id"       int GENERATED ALWAYS AS IDENTITY,
- "islocked" boolean NOT NULL
+ "islocked" boolean NOT NULL DEFAULT FALSE
 
 );
 
@@ -57,7 +58,7 @@ CREATE TABLE "UserProfile"
 (
  "id"          int GENERATED ALWAYS AS IDENTITY,
  "description" text NOT NULL,
- "profilepic"  varchar(50) NOT NULL
+ "profilepic"  varchar(50)
 
 );
 
@@ -154,8 +155,8 @@ CREATE TABLE "User"
  "firstname"  varchar(50) NOT NULL,
  "lastname"   varchar(50) NOT NULL,
  "verified"   boolean NOT NULL,
- "lastactive" date NOT NULL,
- "createdate" date NOT NULL,
+ "lastactive" date NOT NULL DEFAULT now(),
+ "createdate" date NOT NULL DEFAULT now(),
  "profileid"  int NOT NULL,
  "loginid"    int NOT NULL,
  "activeid"   int NOT NULL,
@@ -277,3 +278,24 @@ CREATE INDEX "fkIdx_125" ON "UserRating"
 (
  "rentalid"
 );
+
+
+--****
+--DATA
+--****
+
+-- ********************************* "Province Data"
+
+insert into public."Province" (province) values ('AB'),
+('BC'),
+('SK'),
+('MB'),
+('NB'),
+('NL'),
+('NS'),
+('NT'),
+('NU');
+('ON'),
+('PE'),
+('QC'),
+('YT');
