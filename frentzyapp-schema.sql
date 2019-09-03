@@ -1,60 +1,60 @@
 -- *************** SqlDBM: PostgreSQL ****************;
 -- ***************************************************;
 
--- ************************************** "Province"
-CREATE TABLE "Province"
+-- ************************************** "province"
+CREATE TABLE "province"
 (
  "id"       int GENERATED ALWAYS AS IDENTITY,
- "province" varchar(30) NOT NULL
+ "province" varchar(2) NOT NULL
 );
 
-CREATE UNIQUE INDEX "PK_Province" ON "Province"
+CREATE UNIQUE INDEX "PK_Province" ON "province"
 (
  "id"
 );
 
 
--- ************************************** "Address"
+-- ************************************** "address"
 
-CREATE TABLE "Address"
+CREATE TABLE "address"
 (
  "id"         int GENERATED ALWAYS AS IDENTITY,
  "address1"   varchar(50) NOT NULL,
- "address2"    varchar(50) NULL,
+ "address2"   varchar(50) NULL,
  "city"       varchar(50) NOT NULL,
  "provinceid" int NOT NULL,
  "postalcode" varchar(7) NOT NULL,
- CONSTRAINT "FK_43" FOREIGN KEY ( "provinceid" ) REFERENCES "Province" ( "id" )
+ CONSTRAINT "FK_43" FOREIGN KEY ( "provinceid" ) REFERENCES "province" ( "id" )
 );
 
-CREATE UNIQUE INDEX "PK_Address" ON "Address"
+CREATE UNIQUE INDEX "PK_Address" ON "address"
 (
  "id"
 );
 
-CREATE INDEX "fkIdx_43" ON "Address"
+CREATE INDEX "fkIdx_43" ON "address"
 (
  "provinceid"
 );
 
--- ************************************** "UserActive"
+-- ************************************** "activeStatus"
 
-CREATE TABLE "UserActive"
+CREATE TABLE "activeStatus"
 (
  "id"       int GENERATED ALWAYS AS IDENTITY,
- "islocked" boolean NOT NULL DEFAULT FALSE
+ "status"   varchar(50)
 
 );
 
-CREATE UNIQUE INDEX "PK_UserActive" ON "UserActive"
+CREATE UNIQUE INDEX "PK_activeStatus" ON "activeStatus"
 (
  "id"
 );
 
 
--- ************************************** "UserProfile"
+-- ************************************** "userProfile"
 
-CREATE TABLE "UserProfile"
+CREATE TABLE "userProfile"
 (
  "id"          int GENERATED ALWAYS AS IDENTITY,
  "description" text NOT NULL,
@@ -62,92 +62,90 @@ CREATE TABLE "UserProfile"
 
 );
 
-CREATE UNIQUE INDEX "PK_UserDescription" ON "UserProfile"
+CREATE UNIQUE INDEX "PK_userDescription" ON "userProfile"
 (
  "id"
 );
 
 
--- ************************************** "Category"
+-- ************************************** "category"
 
-CREATE TABLE "Category"
+CREATE TABLE "category"
 (
  "id"   int GENERATED ALWAYS AS IDENTITY,
  "name" varchar(50) NOT NULL
 
 );
 
-CREATE UNIQUE INDEX "PK_Category" ON "Category"
+CREATE UNIQUE INDEX "PK_category" ON "category"
 (
  "id"
 );
 
 
--- ************************************** "Subcategory"
+-- ************************************** "subcategory"
 
-CREATE TABLE "Subcategory"
+CREATE TABLE "subcategory"
 (
  "id"         int GENERATED ALWAYS AS IDENTITY,
  "name"       varchar(50) NOT NULL,
  "categoryid" int NOT NULL,
- CONSTRAINT "FK_141" FOREIGN KEY ( "categoryid" ) REFERENCES "Category" ( "id" )
+ CONSTRAINT "FK_141" FOREIGN KEY ( "categoryid" ) REFERENCES "category" ( "id" )
 );
 
-CREATE UNIQUE INDEX "PK_Subcategory" ON "Subcategory"
+CREATE UNIQUE INDEX "PK_Subcategory" ON "subcategory"
 (
  "id"
 );
 
-CREATE INDEX "fkIdx_141" ON "Subcategory"
+CREATE INDEX "fkIdx_141" ON "subcategory"
 (
  "categoryid"
 );
 
 
--- ************************************** "Item"
+-- ************************************** "item"
 
-CREATE TABLE "Item"
+CREATE TABLE "item"
 (
  "id"           int GENERATED ALWAYS AS IDENTITY,
  "name"         varchar(50) NOT NULL,
  "description"  text NOT NULL,
- "inventoryid"  int NOT NULL,
- "rate"         decimal NOT NULL,
+ "dailyrate"    decimal NOT NULL,
  "availability" boolean NOT NULL,
  "categoryid"   int NOT NULL,
  "imgurl"       text NULL,
- CONSTRAINT "FK_134" FOREIGN KEY ( "categoryid" ) REFERENCES "Category" ( "id" )
+ CONSTRAINT "FK_134" FOREIGN KEY ( "categoryid" ) REFERENCES "category" ( "id" )
 );
 
-CREATE UNIQUE INDEX "PK_Item" ON "Item"
+CREATE UNIQUE INDEX "PK_Item" ON "item"
 (
  "id"
 );
 
-CREATE INDEX "fkIdx_134" ON "Item"
+CREATE INDEX "fkIdx_134" ON "item"
 (
  "categoryid"
 );
 
 
--- ************************************** "Login"
+-- ************************************** "login"
 
-CREATE TABLE "Login"
+CREATE TABLE "login"
 (
- "password" varchar(50) NOT NULL,
- "id"       int GENERATED ALWAYS AS IDENTITY
-
+  "id"       int GENERATED ALWAYS AS IDENTITY,
+  "password" varchar(50) NOT NULL
 );
 
-CREATE UNIQUE INDEX "PK_Login" ON "Login"
+CREATE UNIQUE INDEX "PK_Login" ON "login"
 (
  "id"
 );
 
 
--- ************************************** "User"
+-- ************************************** "user"
 
-CREATE TABLE "User"
+CREATE TABLE "user"
 (
  "id"         int GENERATED ALWAYS AS IDENTITY,
  "addressid"  int NOT NULL,
@@ -159,70 +157,70 @@ CREATE TABLE "User"
  "createdate" date NOT NULL DEFAULT now(),
  "profileid"  int NOT NULL,
  "loginid"    int NOT NULL,
- "activeid"   int NOT NULL,
- CONSTRAINT "FK_153" FOREIGN KEY ( "activeid" ) REFERENCES "UserActive" ( "id" ),
- CONSTRAINT "FK_35" FOREIGN KEY ( "addressid" ) REFERENCES "Address" ( "id" ),
- CONSTRAINT "FK_67" FOREIGN KEY ( "profileid" ) REFERENCES "UserProfile" ( "id" ),
- CONSTRAINT "FK_70" FOREIGN KEY ( "loginid" ) REFERENCES "Login" ( "id" )
+ "activestatusid"   int NOT NULL DEFAULT 1,
+ CONSTRAINT "FK_153" FOREIGN KEY ( "activeid" ) REFERENCES "activeStatus" ( "id" ),
+ CONSTRAINT "FK_35" FOREIGN KEY ( "addressid" ) REFERENCES "address" ( "id" ),
+ CONSTRAINT "FK_67" FOREIGN KEY ( "profileid" ) REFERENCES "userProfile" ( "id" ),
+ CONSTRAINT "FK_70" FOREIGN KEY ( "loginid" ) REFERENCES "login" ( "id" )
 );
 
-CREATE UNIQUE INDEX "PK_User" ON "User"
+CREATE UNIQUE INDEX "PK_User" ON "user"
 (
  "id"
 );
 
-CREATE INDEX "fkIdx_153" ON "User"
+CREATE INDEX "fkIdx_153" ON "user"
 (
  "activeid"
 );
 
-CREATE INDEX "fkIdx_35" ON "User"
+CREATE INDEX "fkIdx_35" ON "user"
 (
  "addressid"
 );
 
-CREATE INDEX "fkIdx_67" ON "User"
+CREATE INDEX "fkIdx_67" ON "user"
 (
  "profileid"
 );
 
-CREATE INDEX "fkIdx_70" ON "User"
+CREATE INDEX "fkIdx_70" ON "user"
 (
  "loginid"
 );
 
 
--- ************************************** "Inventory"
+-- ************************************** "inventory"
 
-CREATE TABLE "Inventory"
+CREATE TABLE "inventory"
 (
  "id"       int GENERATED ALWAYS AS IDENTITY,
  "userid"   int NOT NULL,
  "itemid"   int NOT NULL,
  "quantity" int NOT NULL,
- CONSTRAINT "FK_89" FOREIGN KEY ( "userid" ) REFERENCES "User" ( "id" ),
- CONSTRAINT "FK_97" FOREIGN KEY ( "itemid" ) REFERENCES "Item" ( "id" )
+ CONSTRAINT "FK_89" FOREIGN KEY ( "userid" ) REFERENCES "user" ( "id" ),
+ CONSTRAINT "FK_97" FOREIGN KEY ( "itemid" ) REFERENCES "item" ( "id" )
 );
 
-CREATE UNIQUE INDEX "PK_Inventory" ON "Inventory"
+CREATE UNIQUE INDEX "PK_Inventory" ON "inventory"
 (
  "id"
 );
 
-CREATE INDEX "fkIdx_89" ON "Inventory"
+CREATE INDEX "fkIdx_89" ON "inventory"
 (
  "userid"
 );
 
-CREATE INDEX "fkIdx_97" ON "Inventory"
+CREATE INDEX "fkIdx_97" ON "inventory"
 (
  "itemid"
 );
 
 
--- ************************************** "Rental"
+-- ************************************** "rental"
 
-CREATE TABLE "Rental"
+CREATE TABLE "rental"
 (
  "id"                 int GENERATED ALWAYS AS IDENTITY,
  "userid"             int NOT NULL,
@@ -230,29 +228,29 @@ CREATE TABLE "Rental"
  "checkoutdate"       date NOT NULL,
  "expectedreturndate" date NOT NULL,
  "returndate"         date NULL,
- CONSTRAINT "FK_103" FOREIGN KEY ( "itemid" ) REFERENCES "Item" ( "id" ),
- CONSTRAINT "FK_106" FOREIGN KEY ( "userid" ) REFERENCES "User" ( "id" )
+ CONSTRAINT "FK_103" FOREIGN KEY ( "itemid" ) REFERENCES "item" ( "id" ),
+ CONSTRAINT "FK_106" FOREIGN KEY ( "userid" ) REFERENCES "user" ( "id" )
 );
 
-CREATE UNIQUE INDEX "PK_Rental" ON "Rental"
+CREATE UNIQUE INDEX "PK_Rental" ON "rental"
 (
  "id"
 );
 
-CREATE INDEX "fkIdx_103" ON "Rental"
+CREATE INDEX "fkIdx_103" ON "rental"
 (
  "itemid"
 );
 
-CREATE INDEX "fkIdx_106" ON "Rental"
+CREATE INDEX "fkIdx_106" ON "rental"
 (
  "userid"
 );
 
 
--- ************************************** "UserRating"
+-- ************************************** "userRating"
 
-CREATE TABLE "UserRating"
+CREATE TABLE "userRating"
 (
  "id"         int GENERATED ALWAYS AS IDENTITY,
  "rating"     int NOT NULL,
@@ -260,21 +258,21 @@ CREATE TABLE "UserRating"
  "userid"     int NOT NULL,
  "rentalid"   int NOT NULL,
  "reviewdate" date NOT NULL,
- CONSTRAINT "FK_121" FOREIGN KEY ( "userid" ) REFERENCES "User" ( "id" ),
- CONSTRAINT "FK_125" FOREIGN KEY ( "rentalid" ) REFERENCES "Rental" ( "id" )
+ CONSTRAINT "FK_121" FOREIGN KEY ( "userid" ) REFERENCES "user" ( "id" ),
+ CONSTRAINT "FK_125" FOREIGN KEY ( "rentalid" ) REFERENCES "rental" ( "id" )
 );
 
-CREATE UNIQUE INDEX "PK_UserRating" ON "UserRating"
+CREATE UNIQUE INDEX "PK_UserRating" ON "userRating"
 (
  "id"
 );
 
-CREATE INDEX "fkIdx_121" ON "UserRating"
+CREATE INDEX "fkIdx_121" ON "userRating"
 (
  "userid"
 );
 
-CREATE INDEX "fkIdx_125" ON "UserRating"
+CREATE INDEX "fkIdx_125" ON "userRating"
 (
  "rentalid"
 );
@@ -284,9 +282,9 @@ CREATE INDEX "fkIdx_125" ON "UserRating"
 --DATA
 --****
 
--- ********************************* "Province Data"
+-- ********************************* "province Data"
 
-insert into public."Province" (province) values ('AB'),
+INSERT INTO public."province" (province) VALUES('AB'),
 ('BC'),
 ('SK'),
 ('MB'),
@@ -299,3 +297,8 @@ insert into public."Province" (province) values ('AB'),
 ('PE'),
 ('QC'),
 ('YT');
+
+
+-- ********************************* "activeStatus Data"
+
+INSERT INTO "activeStatus" ("status") VALUES ('Active'), ('Locked'), ('Banned');
