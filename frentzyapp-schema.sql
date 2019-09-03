@@ -158,7 +158,7 @@ CREATE TABLE "user"
  "profileid"  int NOT NULL,
  "loginid"    int NOT NULL,
  "activestatusid"   int NOT NULL DEFAULT 1,
- CONSTRAINT "FK_153" FOREIGN KEY ( "activeid" ) REFERENCES "activeStatus" ( "id" ),
+ CONSTRAINT "FK_153" FOREIGN KEY ( "activestatusid" ) REFERENCES "activeStatus" ( "id" ),
  CONSTRAINT "FK_35" FOREIGN KEY ( "addressid" ) REFERENCES "address" ( "id" ),
  CONSTRAINT "FK_67" FOREIGN KEY ( "profileid" ) REFERENCES "userProfile" ( "id" ),
  CONSTRAINT "FK_70" FOREIGN KEY ( "loginid" ) REFERENCES "login" ( "id" )
@@ -171,7 +171,7 @@ CREATE UNIQUE INDEX "PK_User" ON "user"
 
 CREATE INDEX "fkIdx_153" ON "user"
 (
- "activeid"
+ "activestatusid"
 );
 
 CREATE INDEX "fkIdx_35" ON "user"
@@ -292,7 +292,7 @@ INSERT INTO public."province" (province) VALUES('AB'),
 ('NL'),
 ('NS'),
 ('NT'),
-('NU');
+('NU'),
 ('ON'),
 ('PE'),
 ('QC'),
