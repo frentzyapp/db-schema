@@ -1,41 +1,41 @@
-INSERT INTO "address" ("address1", "city", "provinceid", "postalcode")  
+INSERT INTO address ("address1", "city", "provinceid", "postalcode")  
 VALUES ('555 55 street', 'Winnipeg', 4, 'T3E6d1');
 
-INSERT INTO "address" ("address1", "city", "provinceid", "postalcode")  
+INSERT INTO address ("address1", "city", "provinceid", "postalcode")  
 VALUES ('2412 5 street', 'Edmonton', 1, 'T6E6W1');
 
 --entering profile info will be optional but have default values at account creation
-INSERT INTO "userProfile" ("description")
+INSERT INTO userprofile ("description")
 VALUES ('Hey, I''m Joe. Rent my stuff!!!');
 
-INSERT INTO "userProfile" ("description")
+INSERT INTO userprofile ("description")
 VALUES ('Billy is my name!!!');
 
 INSERT INTO login ("password") VALUES ('Password1');
 INSERT INTO login ("password") VALUES ('Password1');
 
-INSERT INTO "user" ("addressid", "email", "firstname", "lastname", "verified", "profileid", "loginid", "activestatusid")
+INSERT INTO useraccount ("addressid", "email", "firstname", "lastname", "verified", "profileid", "loginid", "activestatusid")
 VALUES (1, 'joe@email.com', 'Joe', 'Schmoe', TRUE, 1, 1, 1);
 
-INSERT INTO "user" ("addressid", "email", "firstname", "lastname", "verified", "profileid", "loginid", "activestatusid")
+INSERT INTO useraccount ("addressid", "email", "firstname", "lastname", "verified", "profileid", "loginid", "activestatusid")
 VALUES (2, 'billybobsmith@email.com', 'Bill', 'Smith', FALSE, 2, 2, 1);
 
-INSERT INTO "category" ("name")
+INSERT INTO category ("name")
 VALUES ('Sports Equipment');
 
-INSERT INTO "category" ("name")
+INSERT INTO category ("name")
 VALUES ('Music Equipment');
 		
-INSERT INTO "subcategory" ("name", "categoryid")
+INSERT INTO subcategory ("name", "categoryid")
 VALUES ('Instruments', 2);
 		
-INSERT INTO "item" ("name", "description", "dailyrate", "availability", "categoryid")
+INSERT INTO item ("name", "description", "dailyrate", "availability", "categoryid")
 VALUES ('Guitar', 'My grandpappy''s pride and joy. He really loved this thing.. RIP Nimnim!!',  40, TRUE, 2);
 
-INSERT INTO "item" ("name", "description", "dailyrate", "availability", "categoryid")
+INSERT INTO item ("name", "description", "dailyrate", "availability", "categoryid")
 VALUES ('Fancy Keyboard', 'Yamaha P90 \n Awesome piano.',  80, TRUE, 2);
 
-INSERT INTO "inventory" (userid, itemid, quantity) VALUES (1, 1, 1);
+INSERT INTO inventory (userid, itemid, quantity) VALUES (1, 1, 1);
 INSERT INTO inventory (userid, itemid, quantity) VALUES (1, 2, 1);
 
 
